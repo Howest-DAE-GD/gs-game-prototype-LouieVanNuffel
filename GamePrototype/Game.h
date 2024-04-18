@@ -1,5 +1,7 @@
 #pragma once
 #include "BaseGame.h"
+#include "Balloon.h"
+
 class Game : public BaseGame
 {
 public:
@@ -22,6 +24,8 @@ public:
 	void ProcessMouseUpEvent( const SDL_MouseButtonEvent& e ) override;
 
 private:
+	// Variables
+	Balloon* m_Balloon;
 
 	// FUNCTIONS
 	void Initialize();
