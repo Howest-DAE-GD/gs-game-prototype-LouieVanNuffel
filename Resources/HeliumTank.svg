@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="3184"
+   height="2267"
+   viewBox="0 0 3184 2267"
+   sodipodi:docname="HeliumTank.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.34274371"
+     inkscape:cx="1479.2394"
+     inkscape:cy="981.78314"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g1" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g1">
+    <image
+       width="3184"
+       height="2267"
+       preserveAspectRatio="none"
+       xlink:href="Map.png"
+       id="image1" />
+    <path
+       style="fill:#000000"
+       d="m 518.86395,1914.02 -7.73654,18.0519 v 48.9981 h 16.50461 l -2.06307,-53.1242 z"
+       id="path2" />
+    <path
+       style="fill:#000000"
+       d="m 1148.8176,1681.2854 19.694,-0.7294 -2.1882,-51.788 -8.0235,-15.3175 -6.5647,16.7763 z"
+       id="path3" />
+    <path
+       style="fill:#000000"
+       d="m 464.63288,1392.4398 h 17.50579 l -0.7294,-51.7879 -7.29408,-12.4 -6.56467,13.1294 z"
+       id="path4" />
+    <path
+       style="fill:#000000"
+       d="m 288.84556,884.04247 -0.72941,54.7056 15.31757,-1.45882 -1.45882,-51.05855 -5.83526,-12.39994 z"
+       id="path5" />
+    <path
+       style="fill:#000000"
+       d="m 920.51287,744.72555 h 18.96461 l -3.64704,-51.05856 -6.56467,-12.39994 -9.48231,13.12935 z"
+       id="path6" />
+    <path
+       style="fill:#000000"
+       d="m 1659.4032,261.12806 18.2352,0.7294 V 210.0695 l -10.2118,-12.39994 -5.8352,12.39994 z"
+       id="path7" />
+    <path
+       style="fill:#000000"
+       d="m 2102.8832,488.70335 v 50.32915 h 18.2352 l -2.1882,-49.59975 -3.6471,-14.58815 z"
+       id="path8" />
+    <path
+       style="fill:#000000"
+       d="m 2582.8337,1193.3115 0.7294,52.5173 19.694,0.7294 -2.1882,-53.9762 -8.0235,-12.3999 z"
+       id="path9" />
+    <path
+       style="fill:#000000"
+       d="m 1501.851,1540.5097 16.7764,1.4588 -0.7294,-53.2468 -10.9411,-13.1294 -6.5647,16.047 z"
+       id="path10" />
+    <path
+       style="fill:#000000"
+       d="m 2212.2944,2013.8954 17.5058,-0.7294 -0.7294,-48.8703 -8.0235,-11.6705 -8.7529,10.9411 z"
+       id="path11" />
+  </g>
+</svg>

@@ -1,19 +1,23 @@
 #pragma once
+#include <vector>
+
+class Texture;
 class Map
 {
 public:
-	Map(float screenWidth, float screenHeight, float speed);
+	Map();
 	~Map();
 
 	void Update(float elapsedSec);
 	void Draw() const;
 
+	float GetWidth() const;
+	float GetHeight() const;
+
+	std::vector<std::vector<Point2f>> GetMapVertices() const;
+
 private:
-	Point2f m_Position;
-	float m_Speed;
-
-	float m_ScreenWidth;
-	float m_ScreenHeight;
-
+	Texture* m_Texture;
+	std::vector<std::vector<Point2f>> m_MapVertices;
 };
 

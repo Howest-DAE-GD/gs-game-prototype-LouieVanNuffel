@@ -1,6 +1,9 @@
 #pragma once
 #include "BaseGame.h"
 #include "Balloon.h"
+#include "Camera.h"
+#include "Map.h"
+#include "Manager.h"
 
 class Game : public BaseGame
 {
@@ -25,7 +28,10 @@ public:
 
 private:
 	// Variables
+	Map* m_Map;
+	Camera* m_Camera;
 	Balloon* m_Balloon;
+	Manager* m_Manager;
 
 	// FUNCTIONS
 	void Initialize();

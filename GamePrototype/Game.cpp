@@ -14,23 +14,39 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
+	m_Map = new Map();
+	m_Camera = new Camera(GetViewPort().width, GetViewPort().height);
 	m_Balloon = new Balloon(Point2f{ GetViewPort().width * 1.f / 5.f, GetViewPort().height * 4.f / 5.f }, Color4f{ 1.f, 0.f, 0.f, 1.f }, 50.f, 75.f, GetViewPort().width, GetViewPort().height);
+	m_Manager = new Manager();
 }
 
 void Game::Cleanup( )
 {
+	delete m_Map;
+	m_Map = nullptr;
+	delete m_Camera;
+	m_Camera = nullptr;
+	delete m_Balloon;
+	m_Balloon = nullptr;
+	delete m_Manager;
+	m_Manager = nullptr;
 }
 
 void Game::Update( float elapsedSec )
 {
 	const Uint8* pStates{ SDL_GetKeyboardState(nullptr) };
-	m_Balloon->Update(elapsedSec, pStates);
+	m_Balloon->Update(elapsedSec, pStates, m_Map->GetMapVertices(), m_Manager->GetObstacleVertices(), m_Manager->GetHeliumTankVertices());
 }
 
 void Game::Draw( ) const
 {
 	ClearBackground( );
-	m_Balloon->Draw();
+	m_Camera->Aim(m_Map->GetWidth(), m_Map->GetHeight(), m_Balloon->GetPosition());
+	m_Map->Draw();
+	m_Manager->Draw();
+	m_Balloon->DrawBalloon();
+	m_Camera->Reset();
+	m_Balloon->DrawHeliumMeter();
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )

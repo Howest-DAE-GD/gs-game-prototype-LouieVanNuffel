@@ -1,20 +1,39 @@
 #include "pch.h"
 #include "Map.h"
+#include "Texture.h"
+#include "SVGParser.h"
 
-Map::Map(float screenWidth, float screenHeight, float speed)
-	:m_Position{ Point2f{0.f, 0.f} }, m_ScreenWidth{ screenWidth }, m_ScreenHeight{ screenHeight }, m_Speed{ speed }
+Map::Map()
 {
+	m_Texture = new Texture("Map.png");
+	SVGParser::GetVerticesFromSvgFile("Map.svg", m_MapVertices);
 }
 
 Map::~Map()
 {
+	delete m_Texture;
+	m_Texture = nullptr;
 }
 
 void Map::Update(float elapsedSec)
 {
-	m_Position.x -= m_Speed * elapsedSec;
 }
 
 void Map::Draw() const
 {
+	m_Texture->Draw();
+}
+
+float Map::GetWidth() const
+{
+	return m_Texture->GetWidth();
+}
+
+float Map::GetHeight() const
+{
+	return m_Texture->GetHeight();
+}
+std::vector<std::vector<Point2f>> Map::GetMapVertices() const
+{
+	return m_MapVertices;
 }
