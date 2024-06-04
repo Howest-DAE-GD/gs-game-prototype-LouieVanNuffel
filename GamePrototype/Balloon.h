@@ -2,13 +2,14 @@
 #include "Vector2f.h"
 #include <vector>
 
+class Manager;
 class Balloon final
 {
 public:
-	Balloon(const Point2f& position, const Color4f& color, float startInflation, float radius, float screenWidth, float screenHeight);
+	Balloon(const Point2f& position, const Color4f& color, Manager& manager, float startInflation, float radius, float screenWidth, float screenHeight);
 	~Balloon();
 
-	void Update(float elapsedSec, const Uint8* pStates, std::vector<std::vector<Point2f>> mapVertices, std::vector<std::vector<Point2f>> obstacleVertices, std::vector<std::vector<Point2f>> heliumVertices);
+	void Update(float elapsedSec, const Uint8* pStates, std::vector<std::vector<Point2f>> mapVertices);
 	void DrawBalloon() const;
 	void DrawHeliumMeter() const;
 
@@ -21,6 +22,7 @@ public:
 private:
 	Point2f m_Position;
 	Color4f m_Color;
+	Manager& m_Manager;
 
 	float m_ScreenWidth;
 	float m_ScreenHeight;
