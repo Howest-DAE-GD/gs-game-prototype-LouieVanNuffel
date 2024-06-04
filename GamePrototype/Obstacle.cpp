@@ -6,7 +6,7 @@ using namespace utils;
 Obstacle::Obstacle(const Point2f& position)
 	:m_Position{ position }, m_Vertices{}, m_Rect{}, m_Rotation{ float(rand() % 6) }, m_RotationSpeed{ 0.5f }
 {
-	m_Rect = Rectf{ m_Position.x, m_Position.y, 100.f, 100.f };
+	m_Rect = Rectf{ m_Position.x, m_Position.y, 50.f, 50.f };
 
 	Point2f leftBottom{ m_Position };
 	Point2f leftTop{ m_Position.x, m_Position.y + m_Rect.height };

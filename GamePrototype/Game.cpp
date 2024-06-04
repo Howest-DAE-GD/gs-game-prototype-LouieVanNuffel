@@ -17,8 +17,8 @@ void Game::Initialize( )
 	m_Map = new Map();
 	m_Camera = new Camera(GetViewPort().width, GetViewPort().height);
 	m_Manager = new Manager();
-	m_Balloon = new Balloon(Point2f{ GetViewPort().width * 1.f / 5.f, GetViewPort().height * 4.f / 5.f }, 
-			Color4f{ 1.f, 0.f, 0.f, 1.f }, *m_Manager, 50.f, 75.f, GetViewPort().width, GetViewPort().height);
+	m_Balloon = new Balloon(Point2f{ 70.f, 755.f }, 
+			Color4f{ 1.f, 0.f, 0.f, 1.f }, *m_Manager, 50.f, 50.f, GetViewPort().width, GetViewPort().height);
 }
 
 void Game::Cleanup( )

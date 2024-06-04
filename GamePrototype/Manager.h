@@ -13,7 +13,8 @@ public:
 	void Draw() const;
 
 	const std::vector<std::vector<Point2f>>& GetHeliumTankVertices() const;
-	const std::vector<std::vector<Point2f>>& GetObstacleVertices();
+	const std::vector<std::vector<Point2f>>& GetObstacleVertices() const;
+	const std::vector<Point2f>& GetEndRectVertices() const;
 	void PickUpHeliumTank(int index);
 	void Reset();
 	void DrawTimer();
@@ -26,6 +27,9 @@ private:
 
 	std::vector<Obstacle*> m_Obstacles;
 	std::vector<HeliumTank*> m_HeliumTanks;
+
+	Rectf m_EndRect;
+	std::vector<Point2f> m_EndRectVertices;
 
 	Texture* m_Text;
 	float m_Timer;

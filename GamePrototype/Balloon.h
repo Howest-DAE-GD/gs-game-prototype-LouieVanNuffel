@@ -7,7 +7,6 @@ class Balloon final
 {
 public:
 	Balloon(const Point2f& position, const Color4f& color, Manager& manager, float startInflation, float radius, float screenWidth, float screenHeight);
-	~Balloon();
 
 	void Update(float elapsedSec, const Uint8* pStates, std::vector<std::vector<Point2f>> mapVertices);
 	void DrawBalloon() const;
@@ -20,6 +19,11 @@ public:
 	void Die();
 
 private:
+	void Start();
+	void End();
+
+	bool m_HasEnded;
+
 	Point2f m_Position;
 	Color4f m_Color;
 	Manager& m_Manager;

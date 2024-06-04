@@ -6,7 +6,7 @@ using namespace utils;
 HeliumTank::HeliumTank(const Point2f& position)
 	:m_Position{ position }, m_Vertices{}, m_Rect{}, m_HasBeenPickedUp{}
 {
-	m_Rect = Rectf{ m_Position.x, m_Position.y, 50.f, 50.f };
+	m_Rect = Rectf{ m_Position.x, m_Position.y, 25.f, 25.f };
 
 	Point2f leftBottom{ m_Position };
 	Point2f leftTop{ m_Position.x, m_Position.y + m_Rect.height };

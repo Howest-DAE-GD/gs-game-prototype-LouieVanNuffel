@@ -7,99 +7,111 @@ using namespace utils;
 
 Balloon::Balloon(const Point2f& position, const Color4f& color, Manager& manager, float startInflation, float radius, float screenWidth, float screenHeight)
 	:m_Position{ position }, m_Color{ color }, m_Manager{ manager }, m_Inflation{ startInflation }, m_Radius{ radius }, m_HeliumTank{ 500.f }, m_Gravity{ -300.f }, m_Speed{ 125.f },
-	m_ScreenWidth{ screenWidth }, m_ScreenHeight{ screenHeight }
-{
-}
-
-Balloon::~Balloon()
+	m_ScreenWidth{ screenWidth }, m_ScreenHeight{ screenHeight }, m_HasEnded{}
 {
 }
 
 void Balloon::Update(float elapsedSec, const Uint8* pStates,std::vector<std::vector<Point2f>> mapVertices)
 {
-	// Collision
-	HitInfo hitInfo{};
-	// With environment
-	for (int index{}; index < mapVertices.size(); ++index)
+	if (!m_HasEnded)
 	{
-		for (int angle{}; angle < 360; angle += 10)
+		// Collision
+		HitInfo hitInfo{};
+		// With environment
+		for (int index{}; index < mapVertices.size(); ++index)
 		{
-			if (Raycast(mapVertices[index], Point2f{m_Position.x, m_Position.y}, Point2f{m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f)}, hitInfo))
+			for (int angle{}; angle < 360; angle += 10)
 			{
-				Die();
+				if (Raycast(mapVertices[index], Point2f{ m_Position.x, m_Position.y }, Point2f{ m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f) }, hitInfo))
+				{
+					Die();
+				}
 			}
 		}
-	}
-	std::vector<std::vector<Point2f>> obstacleVertices{ m_Manager.GetObstacleVertices() };
-	// With Obstacles
-	for (int index{}; index < obstacleVertices.size(); ++index)
-	{
-		for (int angle{}; angle < 360; angle += 10)
+		std::vector<std::vector<Point2f>> obstacleVertices{ m_Manager.GetObstacleVertices() };
+		// With Obstacles
+		for (int index{}; index < obstacleVertices.size(); ++index)
 		{
-			if (Raycast(obstacleVertices[index], Point2f{ m_Position.x, m_Position.y }, Point2f{ m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f) }, hitInfo))
+			for (int angle{}; angle < 360; angle += 10)
 			{
-				Die();
+				if (Raycast(obstacleVertices[index], Point2f{ m_Position.x, m_Position.y }, Point2f{ m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f) }, hitInfo))
+				{
+					Die();
+				}
 			}
 		}
-	}
-	std::vector<std::vector<Point2f>> heliumVertices{ m_Manager.GetHeliumTankVertices() };
-	// With helium tanks
-	for (int index{}; index < heliumVertices.size(); ++index)
-	{
-		for (int angle{}; angle < 360; angle += 10)
+		std::vector<std::vector<Point2f>> heliumVertices{ m_Manager.GetHeliumTankVertices() };
+		// With helium tanks
+		for (int index{}; index < heliumVertices.size(); ++index)
 		{
-			if (Raycast(heliumVertices[index], Point2f{m_Position.x, m_Position.y}, Point2f{m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f)}, hitInfo))
+			for (int angle{}; angle < 360; angle += 10)
 			{
-				m_HeliumTank += 250.f;
-				m_Manager.PickUpHeliumTank(index);
+				if (Raycast(heliumVertices[index], Point2f{ m_Position.x, m_Position.y }, Point2f{ m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f) }, hitInfo))
+				{
+					m_HeliumTank += 250.f;
+					m_Manager.PickUpHeliumTank(index);
+				}
 			}
 		}
-	}
+		// With end rect
+		for (int angle{}; angle < 360; angle += 10)
+		{
+			if (Raycast(m_Manager.GetEndRectVertices(), Point2f{ m_Position.x, m_Position.y }, Point2f{ m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f) }, hitInfo))
+			{
+				End();
+				m_Manager.End();
+			}
+		}
 
-	// Helium Tank Limit
-	if (m_HeliumTank >= 500.f) m_HeliumTank = 500.f;
-	
-	// Input
-	if (pStates[SDL_SCANCODE_UP] && m_Inflation < 100.f && m_HeliumTank > 0.f)
-	{
-		Inflate(40.f * elapsedSec);
-	}
-	else if (pStates[SDL_SCANCODE_DOWN] && m_Inflation > 10.f)
-	{
-		Deflate(40.f * elapsedSec);
-	}
+		// Helium Tank Limit
+		if (m_HeliumTank >= 500.f) m_HeliumTank = 500.f;
 
-	if (pStates[SDL_SCANCODE_RIGHT])
-	{
-		m_Velocity.x += m_Speed * 2 * elapsedSec;
-		if (m_Velocity.x > m_Speed) m_Velocity.x = m_Speed;
-	}
-	else if (pStates[SDL_SCANCODE_LEFT])
-	{
-		m_Velocity.x -= m_Speed * 2 * elapsedSec;
-		if (m_Velocity.x < -m_Speed) m_Velocity.x = -m_Speed;
-	}
-	else
-	{
-		if (m_Velocity.x > 0) m_Velocity.x -= m_Speed * elapsedSec;
-		if (m_Velocity.x < 0) m_Velocity.x += m_Speed * elapsedSec;
-	}
-	
-	if ((pStates[SDL_SCANCODE_RIGHT] && pStates[SDL_SCANCODE_LEFT]))
-	{
-		m_Velocity.x = 0;
-	}
+		// Input
+		if (pStates[SDL_SCANCODE_UP] && m_Inflation < 100.f && m_HeliumTank > 0.f)
+		{
+			Inflate(40.f * elapsedSec);
+		}
+		else if (pStates[SDL_SCANCODE_DOWN] && m_Inflation > 10.f)
+		{
+			Deflate(40.f * elapsedSec);
+		}
 
-	if (pStates[SDL_SCANCODE_SPACE])
-	{
-		m_HeliumTank += 10.f;
-	}
+		if (pStates[SDL_SCANCODE_RIGHT])
+		{
+			m_Velocity.x += m_Speed * 2 * elapsedSec;
+			if (m_Velocity.x > m_Speed) m_Velocity.x = m_Speed;
+		}
+		else if (pStates[SDL_SCANCODE_LEFT])
+		{
+			m_Velocity.x -= m_Speed * 2 * elapsedSec;
+			if (m_Velocity.x < -m_Speed) m_Velocity.x = -m_Speed;
+		}
+		else
+		{
+			if (m_Velocity.x > 0) m_Velocity.x -= m_Speed * elapsedSec;
+			if (m_Velocity.x < 0) m_Velocity.x += m_Speed * elapsedSec;
+		}
 
-	// Physics
-	if (m_Inflation > 10.f) m_Velocity.y = (m_Gravity / 100.f) * (100.f - m_Inflation - 50.f);
-	else m_Velocity.y += m_Gravity * elapsedSec;
-	m_Position += m_Velocity * elapsedSec;
-	if (m_Inflation > 10.f) m_Inflation -= 20.f * elapsedSec;
+		if ((pStates[SDL_SCANCODE_RIGHT] && pStates[SDL_SCANCODE_LEFT]))
+		{
+			m_Velocity.x = 0;
+		}
+
+		if (pStates[SDL_SCANCODE_SPACE])
+		{
+			m_HeliumTank += 10.f;
+		}
+
+		// Physics
+		if (m_Inflation > 10.f) m_Velocity.y = (m_Gravity / 100.f) * (100.f - m_Inflation - 50.f);
+		else m_Velocity.y += m_Gravity * elapsedSec;
+		m_Position += m_Velocity * elapsedSec;
+		if (m_Inflation > 10.f) m_Inflation -= 20.f * elapsedSec;
+	}
+	else if(pStates[SDL_SCANCODE_SPACE])
+	{
+		Start();
+	}
 }
 
 void Balloon::DrawBalloon() const
@@ -136,9 +148,20 @@ void Balloon::Deflate(float amount)
 
 void Balloon::Die()
 {
-	m_Position = Point2f{ 150.f, 300.f };
+	m_Position = Point2f{ 70.f, 755.f };
 	m_HeliumTank = 500.f;
 	m_Inflation = 50.f;
 	m_Velocity.x = 0.f;
 	m_Manager.Reset();
+}
+
+void Balloon::Start()
+{
+	Die();
+	m_HasEnded = false;
+}
+
+void Balloon::End()
+{
+	m_HasEnded = true;
 }

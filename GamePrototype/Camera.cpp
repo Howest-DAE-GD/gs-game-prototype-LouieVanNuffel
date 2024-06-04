@@ -8,9 +8,11 @@ Camera::Camera(float screenWidth, float screenHeight)
 
 void Camera::Aim(float levelW, float levelH, const Point2f& trackCenter)
 {
-	m_Position = Point2f{ trackCenter.x - m_ScreenWidth / 2.f, trackCenter.y - m_ScreenHeight / 2.f };
+	m_Position = Point2f{ trackCenter.x * 2.f - m_ScreenWidth / 2.f, trackCenter.y * 2.f - m_ScreenHeight / 2.f };
 
 	// Handle Camera Bounds
+	levelW *= 2.f;
+	levelH *= 2.f;
 	if (m_Position.x < 0) m_Position.x = 0;
 	else if (m_Position.x > levelW - m_ScreenWidth) m_Position.x = levelW - m_ScreenWidth;
 	if (m_Position.y < 0) m_Position.y = 0;
@@ -18,6 +20,7 @@ void Camera::Aim(float levelW, float levelH, const Point2f& trackCenter)
 
 	glPushMatrix();
 	glTranslatef(-m_Position.x, -m_Position.y, 0.f);
+	glScalef(2.f, 2.f, 1.f);
 }
 
 void Camera::Reset()
