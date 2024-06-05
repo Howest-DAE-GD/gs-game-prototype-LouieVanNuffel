@@ -48,8 +48,9 @@ void Balloon::Update(float elapsedSec, const Uint8* pStates,std::vector<std::vec
 			{
 				if (Raycast(heliumVertices[index], Point2f{ m_Position.x, m_Position.y }, Point2f{ m_Position.x + float(cos(angle)) * m_Radius * (m_Inflation / 100.f) * 0.8f, m_Position.y + float(sin(angle)) * m_Radius * (m_Inflation / 100.f) }, hitInfo))
 				{
-					m_HeliumTank += 250.f;
 					m_Manager.PickUpHeliumTank(index);
+					m_HeliumTank += 250.f;
+					break;
 				}
 			}
 		}
